@@ -1,0 +1,31 @@
+<div class="row" *ngIf="member">
+    <div class="col-4">
+        <div class="card">
+            <img src="https://th.bing.com/th/id/R298c2c03e96791c1d3e4b5d9e5962d5b?rik=C2EraAXbT0myQA&riu=http%3a%2f%2fweneedfun.com%2fwp-content%2fuploads%2f2016%2f07%2fCool-And-Sweet-Stylish-Girls-Emo-Profile-Pictures-9.jpg&ehk=xz6FyyzAczQb4zy97RVnPk1xDYdKWG%2bum6gvSqgaNcY%3d&risl=&pid=ImgRaw"
+                alt="{{member.loginid}}" class="card-img-top img-thumbnail">
+
+        </div>
+        
+    </div>
+    <div class="col-8">
+        <form [formGroup]="newTweetForm" (ngSubmit)="post()" autocomplete="off" *ngIf="member.loginId===loginId">
+            <textarea [class.is-invalid]="newTweetForm.get('message').errors && newTweetForm.get('message').touched"
+                formControlName="message" class="form-control mr-2" placeholder="Message"></textarea>
+            <div *ngIf="newTweetForm.get('message').hasError('required')" class="invalid-feedback">Please enter a tweet
+            </div>
+            <div *ngIf="newTweetForm.get('message').hasError('maxlength')" class="invalid-feedback">Tweet should not go
+                beyond 144 characters</div>
+            <textarea name="tag" [class.is-invalid]="newTweetForm.get('tag').errors && newTweetForm.get('tag').touched"
+                formControlName="tag" class="form-control mr-2" placeholder="Tag"></textarea>
+            <div *ngIf="newTweetForm.get('tag').hasError('maxlength')" class="invalid-feedback">Tag should not go beyond
+                50 characters</div>
+            <button class="btn btn-success" type="submit">Post Tweet</button>
+
+        </form>
+        <div class="mt-5">
+            <app-tweets [member]="member"></app-tweets>
+        </div>
+
+    </div>
+
+</div>

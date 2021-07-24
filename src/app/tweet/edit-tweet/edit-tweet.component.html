@@ -1,0 +1,14 @@
+<form [formGroup]="editTweetForm" (ngSubmit)="update()" autocomplete="off">
+    <textarea [class.is-invalid]="editTweetForm.get('message').errors && editTweetForm.get('message').touched"
+        formControlName="message" class="form-control mr-2" placeholder="Message"></textarea>
+    <div *ngIf="editTweetForm.get('message').hasError('required')" class="invalid-feedback">Please enter a tweet
+    </div>
+    <div *ngIf="editTweetForm.get('message').hasError('maxlength')" class="invalid-feedback">Tweet should not go
+        beyond 144 characters</div>
+    <textarea name="tag" [class.is-invalid]="editTweetForm.get('tag').errors && editTweetForm.get('tag').touched"
+        formControlName="tag" class="form-control mr-2" placeholder="Tag"></textarea>
+    <div *ngIf="editTweetForm.get('tag').hasError('maxlength')" class="invalid-feedback">Tag should not go beyond
+        50 characters</div>
+    <button class="btn btn-success" type="submit">Update Tweet</button>
+
+</form>

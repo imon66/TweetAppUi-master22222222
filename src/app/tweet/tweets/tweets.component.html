@@ -1,0 +1,112 @@
+<div *ngIf="tweets">
+    <div class="container card p-3 m-3" *ngFor="let tweet of tweets">
+        <div class="row">
+            <div class="col-lg-4">
+                <img id="mainComment"
+                    src="https://th.bing.com/th/id/R298c2c03e96791c1d3e4b5d9e5962d5b?rik=C2EraAXbT0myQA&riu=http%3a%2f%2fweneedfun.com%2fwp-content%2fuploads%2f2016%2f07%2fCool-And-Sweet-Stylish-Girls-Emo-Profile-Pictures-9.jpg&ehk=xz6FyyzAczQb4zy97RVnPk1xDYdKWG%2bum6gvSqgaNcY%3d&risl=&pid=ImgRaw"
+                    alt="{{member.loginid}}" class="card-img-top mr-3">
+            </div>
+            <div class="col-lg-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6>{{member.loginId}}</h6>
+                        </div>
+                        <div class="col-lg-6">
+                            {{tweet.createdOn|date:'medium'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>{{tweet.message}}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6" *ngIf="member.loginId!==loginId">
+                            <button class="btn btn-info btn-block" (click)="replytoTweet(tweet.tweetId)">Reply</button>
+                        </div>
+                        <div class="col-lg-6" *ngIf="member.loginId===loginId">
+                            <button class="btn btn-info btn-block" [routerLink]="['/tweet/edit',tweet.tweetId]">Edit
+                                Tweet</button>
+                        </div>
+                        <div class="col-lg-6" *ngIf="member.loginId!==loginId">
+                            {{userLike}}
+                            <div *ngIf="likes[tweet.tweetId]?likes[tweet.tweetId]:''">
+                                
+                                <div *ngIf="likes[tweet.tweetId].length==0 || !likedByUser;else otherTemplate">
+                                    <button (click)="toggle('like',tweet.tweetId)" class="btn btn-primary btn-block"><i
+                                            class="fa fa-thumbs-o-up"></i><span
+                                            class="badge badge-secondary badge-pill">{{likes[tweet.tweetId].length}}</span></button>
+                                </div>
+                                <ng-template #otherTemplate>
+                                    <div>
+                                        <button (click)="toggle('unlike',tweet.tweetId,tweet.likeId)"
+                                            class="btn btn-primary btn-block"><i class="fa fa-thumbs-o-down"></i><span
+                                                class="badge badge-secondary badge-pill">{{likes[tweet.tweetId].length}}</span></button>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            
+
+                        </div>
+                        <div class="col-lg-6" *ngIf="member.loginId===loginId">
+                            <button class="btn btn-danger btn-block" (click)="deleteTweet(tweet.tweetId,loginId)">Delete
+                                Tweet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form" id="{{tweet.id}}">
+                <div class="d-flex" *ngIf="replyMode">
+
+                    <div class="ml-auto">
+                        <i class="far fa-comment"></i>{{tweet.commentsCount}}
+                    </div>
+                </div>
+                <div class="my-4" *ngIf="replyTweet==tweet.tweetId">
+                    <form class="d-inline" [formGroup]="addCommentForm" (ngSubmit)="addComments(tweet.tweetId)">
+                        <div class="d-flex">
+                            <div class="messageComment">
+                                <textarea class="form-control task-textarea" rows="1" formControlName="comments"
+                                    placeholder="Reply"></textarea>
+                            </div>
+                            <div class="tagComment">
+                                <textarea class="form-control task-textarea" rows="1" formControlName="tags"
+                                    placeholder="Tag"></textarea>
+                            </div>
+                            <div class="ml-auto">
+                                <button class="btn btn-success" [disabled]="!addCommentForm.valid">Ok</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+
+
+                <div class="data m-3" *ngFor="let k of (comments[tweet.tweetId] ? comments[tweet.tweetId] :[])">
+                    
+                    <div *ngIf="k;else otherTemplate">
+                        <div class="d-flex">
+
+                            <img src="https://th.bing.com/th/id/R298c2c03e96791c1d3e4b5d9e5962d5b?rik=C2EraAXbT0myQA&riu=http%3a%2f%2fweneedfun.com%2fwp-content%2fuploads%2f2016%2f07%2fCool-And-Sweet-Stylish-Girls-Emo-Profile-Pictures-9.jpg&ehk=xz6FyyzAczQb4zy97RVnPk1xDYdKWG%2bum6gvSqgaNcY%3d&risl=&pid=ImgRaw"
+                                width="30" class="avatar img-circle" alt="avatar" />
+                            <h5 class="ml-2"> {{k.username}}</h5>
+                        </div>
+
+                        {{k.comment}}
+                        <p> {{k.createdAt | date :'medium'}}</p>
+                    </div>
+                    <ng-template #otherTemplate>
+                        <div>
+                            <h3 style="color: white;">No Comments</h3>
+                        </div>
+                    </ng-template>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

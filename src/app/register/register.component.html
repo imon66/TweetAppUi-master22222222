@@ -1,0 +1,57 @@
+<form [formGroup]='registerForm' (ngSubmit)="registerForm.valid && register()" autocomplete="off">
+    <h2 class="text-center text-primary">Sign Up</h2>
+    <hr>
+    <div class="form-group">
+        <input [class.is-invalid]='registerForm.get("firstname").errors && registerForm.get("firstname").touched'
+            type="text" class="form-control" formControlName='firstname' placeholder="First Name">
+        <div class="invalid-feedback">Please enter a first name</div>
+    </div>
+    <div class="form-group">
+        <input [class.is-invalid]='registerForm.get("lastname").errors && registerForm.get("lastname").touched'
+            type="text" class="form-control" formControlName='lastname' placeholder="Last Name">
+        <div class="invalid-feedback">Please enter a last name</div>
+    </div>
+    <div class="form-group">
+        <input [class.is-invalid]='registerForm.get("email").errors && registerForm.get("email").touched' type="email"
+            class="form-control" formControlName='email' placeholder="Email">
+        <div *ngIf="registerForm.get('email').hasError('required')" class="invalid-feedback">Please enter an email</div>
+        <div *ngIf="registerForm.get('email').hasError('email')" class="invalid-feedback">Email must be valid</div>
+    </div>
+    <div class="form-group">
+        <input [class.is-invalid]='registerForm.get("loginid").errors && registerForm.get("loginid").touched'
+            type="text" class="form-control" formControlName='loginid' placeholder="Login Id">
+        <div class="invalid-feedback">Please enter a login id</div>
+    </div>
+    <div class="form-group">
+        <input [class.is-invalid]='registerForm.get("password").errors && registerForm.get("password").touched'
+            type="password" class="form-control" formControlName='password' placeholder="Password">
+        <div class="invalid-feedback">Please enter a password</div>
+    </div>
+    <div class="form-group">
+        <input
+            [class.is-invalid]='registerForm.get("confirmPassword").errors && registerForm.get("confirmPassword").touched'
+            type="password" class="form-control" formControlName='confirmPassword' placeholder="Confirm Password">
+        <div *ngIf="registerForm.get('confirmPassword').hasError('required')" class="invalid-feedback">Please enter a
+            confirm password</div>
+        <div *ngIf="registerForm.get('confirmPassword').hasError('isMatching')" class="invalid-feedback">Confirm
+            password must match password</div>
+    </div>
+    <div class="form-group">
+        <input
+            [class.is-invalid]='registerForm.get("contactNumber").errors && registerForm.get("contactNumber").touched'
+            type="tel" class="form-control" formControlName='contactNumber' placeholder="Contact Number">
+        <div *ngIf="registerForm.get('contactNumber').hasError('required')" class="invalid-feedback">Please enter a contact number</div>
+        <div *ngIf="registerForm.get('contactNumber').hasError('pattern')" class="invalid-feedback">Contact number is not valid</div>
+    </div>
+    <div class="row" *ngIf="validationErrors.length>0">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">
+                {{error}}
+            </li>
+        </ul>
+    </div>
+    <div class="form-group text-center">
+        <button [disabled]='!registerForm.valid' class="btn btn-success mr-2" type="submit">Register</button>
+        <button class="btn btn-default mr-2" (click)="cancel()" type="button">Cancel</button>
+    </div>
+</form>

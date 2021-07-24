@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="d-flex">
+                <a class="navbar-brand" routerLink='/' routerLinkActive="active"><img
+                        src="https://th.bing.com/th/id/R879a9480f2bb095af5b8839cb7f83891?rik=v5c2JxK%2bUhFWiQ&riu=http%3a%2f%2fblog.addthiscdn.com%2fwp-content%2fuploads%2f2015%2f09%2fTwitterTips.png&ehk=3xTpuo%2f9RcOs2raDOSAzKV6Fhmgd0gJNLnjJ4D7t9zI%3d&risl=&pid=ImgRaw"
+                        alt="Tweet App"></a>
+                <div class="flex-column">
+                    <div class="d-flex justify-content-between">
+                        <ul class="navbar-nav mr-auto mb-2 mb-md-0">
+                            <ng-container *ngIf="(accountService.currentUser$|async)">
+
+                                <li class="nav-item">
+                                    <a class="nav-link " routerLink='/members' routerLinkActive="active">All Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " [routerLink]='["/members",currentUser.loginId]'
+                                        routerLinkActive="active">Dashboard</a>
+                                </li>
+
+                            </ng-container>
+                            
+
+
+
+                        </ul>
+                        <div class="dropdown" *ngIf="(accountService.currentUser$|async) as user" dropdown>
+                            <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.loginId}}</a>
+                            <div class="dropdown-menu mt-3" *dropdownMenu>
+                                <a class="dropdown-item" routerLink="/resetPassword">Reset Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="logout()">Logout</a>
+                            </div>
+                        </div>
+                        <form *ngIf="(accountService.currentUser$|async)===null" #loginForm="ngForm" class="d-flex"
+                            (ngSubmit)="login(loginForm)" autocomplete="off">
+                            <input name="username" [(ngModel)]="model.username" class="form-control mr-2" type="text"
+                                placeholder="Username">
+                            <input name="password" [(ngModel)]="model.password" class="form-control mr-2"
+                                type="password" placeholder="Password">
+                            <button class="btn btn-success" type="submit">Login</button>
+                        </form>
+                        
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</nav>
